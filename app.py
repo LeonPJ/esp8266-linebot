@@ -14,6 +14,7 @@ import datetime
 import openai
 import time
 import traceback
+import requests
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -64,10 +65,43 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(user_id))
         elif "OPEN" in msg:
             if(user_id == os.getenv('AUTHORIZE_USER_1')):
-                line_bot_api.reply_message(event.reply_token, TextSendMessage("Authorize Open"))
+
+                #  open door
+                url = os.getenv('BLYNK_URL')
+                params = {
+                    "token": os.getenv('BLYNK_TOKEN'),
+                    "v0": os.getenv('BLYNK_STATUS')
+                }
+                response = requests.get(url, params=params)
+                if response.status_code == 200:
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage("Authorize Open Success"))
+                else:
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage("Authorize Open Fail"))
+
         elif "CLOSE" in msg:
             if(user_id == os.getenv('AUTHORIZE_USER_1')):
-                line_bot_api.reply_message(event.reply_token, TextSendMessage("Authorize Close"))
+
+                # enable close
+                url = os.getenv('BLYNK_URL')
+                params = {
+                    "token": os.getenv('BLYNK_TOKEN'),
+                    "v2": os.getenv('BLYNK_STATUS')
+                }
+                response = requests.get(url, params=params)
+                if response.status_code == 200:
+                    # close door
+                    url = os.getenv('BLYNK_URL')
+                    params = {
+                        "token": os.getenv('BLYNK_TOKEN'),
+                        "v1": os.getenv('BLYNK_STATUS')
+                    }
+                    response = requests.get(url, params=params)
+                    if response.status_code == 200:
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage("Authorize Close"))
+                    else:
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage("Authorize Close Fail"))
+                else:
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage("Authorize Enable Fail"))
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage("Unauthorized"))
 
