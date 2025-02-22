@@ -59,11 +59,19 @@ def handle_message(event):
         # GPT_answer = GPT_response(msg)
         # print(GPT_answer)
         # line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer)) 
+        user_id = event.source.user_id
         if "TOKEN" in msg:
-            user_id = event.source.user_id
             line_bot_api.reply_message(event.reply_token, TextSendMessage(user_id))
+        elif "OPEN" in msg:
+            if(user_id == os.getenv('AUTHORIZE_USER_1')):
+                line_bot_api.reply_message(event.reply_token, TextSendMessage("Authorize Open"))
+        elif "CLOSE" in msg:
+            if(user_id == os.getenv('AUTHORIZE_USER_1')):
+                line_bot_api.reply_message(event.reply_token, TextSendMessage("Authorize Close"))
         else:
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(msg))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage("Unauthorized"))
+
+                        
     except:
         print(traceback.format_exc())
         # line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息'))
