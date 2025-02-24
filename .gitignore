@@ -1,0 +1,9 @@
+# Blynk token
+env.h
+
+# mas OS
+.config
+.DS_Store
+
+# binary folder
+build
