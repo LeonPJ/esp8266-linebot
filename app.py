@@ -79,7 +79,7 @@ def handle_message(event):
                     line_bot_api.reply_message(event.reply_token, TextSendMessage("開門 - 失敗"))
 
         # elif "CLOSE" in msg:
-        #     if(user_id == os.getenv('AUTHORIZE_USER_1')):
+        #     if(user_id == os.getenv('AUTHORIZE_USER_1') or user_id == os.getenv('AUTHORIZE_USER_2') or user_id == os.getenv('AUTHORIZE_USER_3')):
 
         #         # enable close
         #         url = os.getenv('BLYNK_URL')
@@ -97,11 +97,11 @@ def handle_message(event):
         #             }
         #             response = requests.get(url, params=params)
         #             if response.status_code == 200:
-        #                 line_bot_api.reply_message(event.reply_token, TextSendMessage("Authorize Close"))
+        #                 line_bot_api.reply_message(event.reply_token, TextSendMessage("關門 - 成功"))
         #             else:
-        #                 line_bot_api.reply_message(event.reply_token, TextSendMessage("Authorize Close Fail"))
+        #                 line_bot_api.reply_message(event.reply_token, TextSendMessage("關門 - 失敗"))
         #         else:
-        #             line_bot_api.reply_message(event.reply_token, TextSendMessage("Authorize Enable Fail"))
+        #             line_bot_api.reply_message(event.reply_token, TextSendMessage("授權 - 失敗"))
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage("未授權"))
 
