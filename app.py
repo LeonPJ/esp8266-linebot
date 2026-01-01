@@ -74,7 +74,7 @@ def handle_message(event):
                 url = os.getenv('BLYNK_URL')
                 params = {
                     "token": os.getenv('BLYNK_TOKEN'),
-                    "v0": os.getenv('BLYNK_STATUS')
+                    os.getenv('BLYNK_PIN'): os.getenv('BLYNK_STATUS')
                 }
                 response = requests.get(url, params=params)
                 if response.status_code == 200:
@@ -89,7 +89,7 @@ def handle_message(event):
         #         url = os.getenv('BLYNK_URL')
         #         params = {
         #             "token": os.getenv('BLYNK_TOKEN'),
-        #             "v2": os.getenv('BLYNK_STATUS')
+        #             os.getenv('BLYNK_PIN'): os.getenv('BLYNK_STATUS')
         #         }
         #         response = requests.get(url, params=params)
         #         if response.status_code == 200:
@@ -97,7 +97,7 @@ def handle_message(event):
         #             url = os.getenv('BLYNK_URL')
         #             params = {
         #                 "token": os.getenv('BLYNK_TOKEN'),
-        #                 "v1": os.getenv('BLYNK_STATUS')
+        #                 os.getenv('BLYNK_PIN_V1'): os.getenv('BLYNK_STATUS')
         #             }
         #             response = requests.get(url, params=params)
         #             if response.status_code == 200:
