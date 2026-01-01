@@ -61,20 +61,16 @@ def callback():
 def handle_message(event):
     msg = event.message.text
     try:
-        # GPT_answer = GPT_response(msg)
-        # print(GPT_answer)
-        # line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer)) 
         user_id = event.source.user_id
         if "TOKEN" in msg:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(user_id))
         elif "OPEN" in msg:
             if(user_id == os.getenv('AUTHORIZE_USER_1') or user_id == os.getenv('AUTHORIZE_USER_2') or user_id == os.getenv('AUTHORIZE_USER_3')):
-
                 #  open door
                 url = os.getenv('BLYNK_URL')
                 params = {
                     "token": os.getenv('BLYNK_TOKEN'),
-                    "v0": os.getenv('BLYNK_STATUS')
+                    "v2": os.getenv('BLYNK_STATUS')
                 }
                 response = requests.get(url, params=params)
                 if response.status_code == 200:
@@ -82,30 +78,34 @@ def handle_message(event):
                 else:
                     line_bot_api.reply_message(event.reply_token, TextSendMessage("開門 - 失敗"))
 
+        # elif "STOP" in msg:
+        #     if(user_id == os.getenv('AUTHORIZE_USER_1') or user_id == os.getenv('AUTHORIZE_USER_2') or user_id == os.getenv('AUTHORIZE_USER_3')):
+        #       # close door
+        #       url = os.getenv('BLYNK_URL')
+        #       params = {
+        #           "token": os.getenv('BLYNK_TOKEN'),
+        #           "v3": os.getenv('BLYNK_STATUS')
+        #       }
+        #       response = requests.get(url, params=params)
+        #       if response.status_code == 200:
+        #           line_bot_api.reply_message(event.reply_token, TextSendMessage("暫停 - 成功"))
+        #       else:
+        #           line_bot_api.reply_message(event.reply_token, TextSendMessage("暫停 - 失敗"))
+
         # elif "CLOSE" in msg:
         #     if(user_id == os.getenv('AUTHORIZE_USER_1') or user_id == os.getenv('AUTHORIZE_USER_2') or user_id == os.getenv('AUTHORIZE_USER_3')):
-
-        #         # enable close
+        #         # close door
         #         url = os.getenv('BLYNK_URL')
         #         params = {
         #             "token": os.getenv('BLYNK_TOKEN'),
-        #             "v2": os.getenv('BLYNK_STATUS')
+        #             "v4": os.getenv('BLYNK_STATUS')
         #         }
         #         response = requests.get(url, params=params)
         #         if response.status_code == 200:
-        #             # close door
-        #             url = os.getenv('BLYNK_URL')
-        #             params = {
-        #                 "token": os.getenv('BLYNK_TOKEN'),
-        #                 "v1": os.getenv('BLYNK_STATUS')
-        #             }
-        #             response = requests.get(url, params=params)
-        #             if response.status_code == 200:
-        #                 line_bot_api.reply_message(event.reply_token, TextSendMessage("關門 - 成功"))
-        #             else:
-        #                 line_bot_api.reply_message(event.reply_token, TextSendMessage("關門 - 失敗"))
+        #             line_bot_api.reply_message(event.reply_token, TextSendMessage("關門 - 成功"))
         #         else:
-        #             line_bot_api.reply_message(event.reply_token, TextSendMessage("授權 - 失敗"))
+        #             line_bot_api.reply_message(event.reply_token, TextSendMessage("關門 - 失敗"))
+
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage("未授權"))
 
